@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WebSocketService</string>
+    <string name="app_name">WebSocketService Tester</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
 </resources>
