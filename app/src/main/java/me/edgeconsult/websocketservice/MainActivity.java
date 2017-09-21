@@ -19,40 +19,47 @@ import okhttp3.WebSocketListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    private WebSocketService serviceRef;
-    private ServiceConnection mServiceConnection = new ServiceConnection() {
+    private boolean mBound = false;
+    private WebSocketService mWebSocketService;
+    private ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            serviceRef = ((WebSocketService.WebSocketBinder)iBinder).getService();
-            // Toast.makeText(getApplicationContext(), "onServiceConnected", Toast.LENGTH_SHORT).show();
+            mWebSocketService = ((WebSocketService.WebSocketBinder)iBinder).getService();
+            mBound = true;
+            Toast.makeText(getApplicationContext(), "onServiceConnected", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
-            serviceRef = null;
-            // Toast.makeText(getApplicationContext(), "onServiceDisconnected", Toast.LENGTH_SHORT).show();
+            mBound = false;
+            Toast.makeText(getApplicationContext(), "onServiceDisconnected", Toast.LENGTH_SHORT).show();
         }
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startService(new Intent(this, WebSocketService.class));
         setContentView(R.layout.activity_main);
-        Button btn_start = (Button) findViewById(R.id.btn_start);
-        Button btn_stop = (Button) findViewById(R.id.btn_stop);
-        btn_start.setOnClickListener(new View.OnClickListener() {
+        Button btn_bind = (Button) findViewById(R.id.btn_bind);
+        Button btn_unbind = (Button) findViewById(R.id.btn_unbind);
+        btn_bind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startService(new Intent(getBaseContext(), WebSocketService.class));
+                if(!mBound) {
+                    Intent intent = new Intent(MainActivity.this, WebSocketService.class);
+                    bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+                }
             }
         });
-        btn_stop.setOnClickListener(new View.OnClickListener() {
+        btn_unbind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                stopService(new Intent(getBaseContext(), WebSocketService.class));
+                if (mBound) {
+                    unbindService(mConnection);
+                    mBound = false;
+                }
             }
         });
-        Intent i = new Intent(MainActivity.this, WebSocketService.class);
-        bindService(i, mServiceConnection, Context.BIND_AUTO_CREATE);
     }
 }
