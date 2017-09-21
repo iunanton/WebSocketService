@@ -43,14 +43,7 @@ public class WebSocketService extends Service {
             @Override
             public void onOpen(WebSocket webSocket, Response response) {
                 // super.onOpen(webSocket, response);
-                final String jString =
-                        "{"
-                                + " \"type\": \"login\","
-                                + " \"data\": {"
-                                + "             \"username\": \"WebSocketService\","
-                                + "             \"password\": \"socket\""
-                                + "           }"
-                                + "}";
+                final String jString = "{\"type\":\"login\",\"data\":{\"username\":\"WebSocketService\",\"password\":\"socket\"}}";
                 Log.i(MAIN_ACTIVITY_TAG, jString);
                 webSocket.send(jString);
             }
@@ -70,5 +63,9 @@ public class WebSocketService extends Service {
         super.onDestroy();
         ws.close(1000, "Service destroyed");
         Toast.makeText(getApplicationContext(), "onDestroyCommand", Toast.LENGTH_SHORT).show();
+    }
+
+    public void send(String text) {
+        ws.send(text);
     }
 }
