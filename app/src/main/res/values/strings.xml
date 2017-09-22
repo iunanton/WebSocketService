@@ -1,5 +1,3 @@
 <resources>
     <string name="app_name">WebSocketService Tester</string>
-    <string name="bind">Bind</string>
-    <string name="unbind">Unbind</string>
 </resources>

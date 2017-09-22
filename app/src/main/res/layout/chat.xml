@@ -18,19 +18,19 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_send"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:text="Login" />
+            android:text="Send" />
 
         <Button
-            android:id="@+id/btn_chat"
+            android:id="@+id/btn_back"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:text="Chat" />
+            android:text="Back" />
     </LinearLayout>
 </LinearLayout>

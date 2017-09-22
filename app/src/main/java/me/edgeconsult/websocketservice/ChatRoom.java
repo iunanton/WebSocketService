@@ -4,21 +4,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
-
-public class MainActivity extends AppCompatActivity {
+public class ChatRoom extends AppCompatActivity {
 
     private WebSocketService mBoundService;
     private boolean mIsBound = false;
@@ -36,22 +28,21 @@ public class MainActivity extends AppCompatActivity {
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startService(new Intent(this, WebSocketService.class));
-        setContentView(R.layout.activity_main);
-        Button btn_login = (Button) findViewById(R.id.btn_login);
-        btn_login.setOnClickListener(new View.OnClickListener() {
+        setContentView(R.layout.chat);
+        Button btn_send = (Button) findViewById(R.id.btn_send);
+        btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mBoundService.sendMessage("auth");
+                mBoundService.sendMessage("message");
             }
         });
-        Button btn_chat = (Button) findViewById(R.id.btn_chat);
-        btn_chat.setOnClickListener(new View.OnClickListener() {
+        Button btn_back = (Button) findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent("me.edgeconsult.websocketservice.ChatRoom"));
+                finish();
             }
         });
     }
@@ -71,4 +62,5 @@ public class MainActivity extends AppCompatActivity {
             mIsBound = false;
         }
     }
+
 }
